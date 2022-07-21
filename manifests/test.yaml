@@ -18,6 +18,7 @@ metadata:
   name: mc-vanilla
   namespace: minecraft
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app: mc-vanilla
