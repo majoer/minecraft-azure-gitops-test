@@ -20,6 +20,9 @@ spec:
           # Use secret in real usage
         - name: EULA
           value: "true"
+          # Use secret in real usage
+        - name: ENABLE_AUTOPAUSE
+          value: "true"
         ports:
         - containerPort: 25565
           name: main
