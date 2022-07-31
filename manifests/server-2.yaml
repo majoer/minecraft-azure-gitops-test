@@ -25,15 +25,19 @@ spec:
             limits:
               memory: "1024Mi"
           env:
-            # Use secret in real usage
-          - name: EULA
-            value: "true"
-            # Use secret in real usage
-          - name: ENABLE_AUTOPAUSE
-            value: "true"
+              # Use secret in real usage
+            - name: EULA
+              value: "true"
+              # Use secret in real usage
+            - name: ENABLE_AUTOPAUSE
+              value: "true"
+            - name: MEMORY
+              value: ""
+            - name: JVM_XX_OPTS
+              value: "-XX:MaxRAMPercentage=75"
           ports:
-          - containerPort: 25565
-            name: main
+            - containerPort: 25565
+              name: main
           startupProbe:
             exec:
               command: ["/health.sh"]
