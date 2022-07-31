@@ -4,7 +4,7 @@ metadata:
   name: mc-vanilla
   namespace: minecraft
 spec:
-  replicas: 10
+  replicas: 4
   selector:
     matchLabels:
       app: mc-vanilla
@@ -39,9 +39,17 @@ spec:
         #     command: ["/health.sh"]
         #   initialDelaySeconds: 120
         #   periodSeconds: 60
+        
         volumeMounts:
         - name: mc-data
           mountPath: /data
-      volumes:
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "50m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+          volumes:
       - name: mc-data
         emptyDir: {}
