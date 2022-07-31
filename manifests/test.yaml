@@ -14,42 +14,42 @@ spec:
         app: mc-vanilla
     spec:
       containers:
-      - image: docker.io/itzg/minecraft-server
-        name: mc-vanilla
-        env:
-          # Use secret in real usage
-        - name: EULA
-          value: "true"
-          # Use secret in real usage
-        - name: ENABLE_AUTOPAUSE
-          value: "true"
-        ports:
-        - containerPort: 25565
-          name: main
-        readinessProbe:
-          exec:
-            command: ["/health.sh"]
-          # Give it i + p * f seconds to be ready, so 120 seconds
-          initialDelaySeconds: 20
-          periodSeconds: 20
-          failureThreshold: 20
-        # Monitor ongoing liveness
-        # livenessProbe:
-        #   exec:
-        #     command: ["/health.sh"]
-        #   initialDelaySeconds: 120
-        #   periodSeconds: 60
-        
-        volumeMounts:
+        - image: docker.io/itzg/minecraft-server
+          name: mc-vanilla
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "50m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          env:
+            # Use secret in real usage
+          - name: EULA
+            value: "true"
+            # Use secret in real usage
+          - name: ENABLE_AUTOPAUSE
+            value: "true"
+          ports:
+          - containerPort: 25565
+            name: main
+          readinessProbe:
+            exec:
+              command: ["/health.sh"]
+            # Give it i + p * f seconds to be ready, so 120 seconds
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            failureThreshold: 20
+          # Monitor ongoing liveness
+          # livenessProbe:
+          #   exec:
+          #     command: ["/health.sh"]
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 60
+          
+          volumeMounts:
+            - name: mc-data
+              mountPath: /data
+      volumes:
         - name: mc-data
-          mountPath: /data
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "50m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"
-          volumes:
-      - name: mc-data
-        emptyDir: {}
+          emptyDir: {}
