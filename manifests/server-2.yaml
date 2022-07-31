@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mc-vanilla
+  name: mc-vanilla-2
   namespace: minecraft
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mc-vanilla
+      app: mc-vanilla-2
   template:
     metadata:
       labels:
-        app: mc-vanilla
+        app: mc-vanilla-2
     spec:
       containers:
         - image: docker.io/itzg/minecraft-server
-          name: mc-vanilla
+          name: mc-vanilla-2
           resources:
             requests:
               memory: "256Mi"
