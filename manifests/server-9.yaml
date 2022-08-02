@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mc-vanilla-9
+  namespace: minecraft
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mc-vanilla-9
+  template:
+    metadata:
+      labels:
+        app: mc-vanilla-9
+    spec:
+      containers:
+        - image: docker.io/itzg/minecraft-server
+          name: mc-vanilla-9
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "50m"
+            limits:
+              memory: "1024Mi"
+          env:
+              # Use secret in real usage
+            - name: EULA
+              value: "true"
+              # Use secret in real usage
+            - name: ENABLE_AUTOPAUSE
+              value: "true"
+            - name: MEMORY
+              value: ""
+            - name: JVM_XX_OPTS
+              value: "-XX:MaxRAMPercentage=75"
+          ports:
+            - containerPort: 25565
+              name: main
+          startupProbe:
+            exec:
+              command: ["/health.sh"]
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 30
+          readinessProbe:
+            exec:
+              command: ["/health.sh"]
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            failureThreshold: 20
+          # Monitor ongoing liveness
+          # livenessProbe:
+          #   exec:
+          #     command: ["/health.sh"]
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 60
+          
+          volumeMounts:
+            - name: mc-data-9
+              mountPath: /data
+      volumes:
+        - name: mc-data-9
+          emptyDir: {}
