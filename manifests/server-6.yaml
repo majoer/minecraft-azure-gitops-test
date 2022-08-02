@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mc-vanilla-5
+  name: mc-vanilla-6
   namespace: minecraft
 spec:
   replicas: 1
@@ -9,15 +9,15 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: mc-vanilla-5
+      app: mc-vanilla-6
   template:
     metadata:
       labels:
-        app: mc-vanilla-5
+        app: mc-vanilla-6
     spec:
       containers:
         - image: docker.io/itzg/minecraft-server
-          name: mc-vanilla-5
+          name: mc-vanilla-6
           resources:
             requests:
               memory: "256Mi"
@@ -58,8 +58,8 @@ spec:
           #   periodSeconds: 60
           
           volumeMounts:
-            - name: mc-data-5
+            - name: mc-data-6
               mountPath: /data
       volumes:
-        - name: mc-data-5
+        - name: mc-data-6
           emptyDir: {}
